@@ -38,6 +38,12 @@ class Library: ObservableObject {
         try self.save()
     }
     
+    func delete(_ book: Book) throws {
+        self.books[book.id] = nil
+        self.updateBookList()
+        try self.save()
+    }
+    
     open func save() throws {
         
     }
