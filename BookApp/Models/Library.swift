@@ -20,7 +20,7 @@ class Library: ObservableObject {
         try! self.load()
     }
     
-    func add(_ book: Book) throws {
+    public func add(_ book: Book) throws {
         if let _ = self.books[book.id]  {
             throw LibraryError.duplicate
         }
@@ -29,7 +29,7 @@ class Library: ObservableObject {
         try self.save()
     }
     
-    func update(_ book: Book) throws {
+    public func update(_ book: Book) throws {
         guard let _ = self.books[book.id] else {
             throw LibraryError.notFound
         }
@@ -38,10 +38,14 @@ class Library: ObservableObject {
         try self.save()
     }
     
-    func delete(_ book: Book) throws {
+    public func delete(_ book: Book) throws {
         self.books[book.id] = nil
         self.updateBookList()
         try self.save()
+    }
+    
+    public func book(withID id:UUID) -> Book? {
+        return self.books[id]
     }
     
     open func save() throws {

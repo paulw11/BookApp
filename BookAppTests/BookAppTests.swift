@@ -50,6 +50,27 @@ class BookAppTests: XCTestCase {
         }
     }
     
+    func testRetrieval() throws {
+        let testBook = Book(title: "1984", author: "George Orwell")
+        XCTAssert(library.book(withID: testBook.id) == nil, "Found book unexpectedly")
+        do {
+            try library.add(testBook)
+        }
+        guard let findBook = library.book(withID: testBook.id) else {
+            XCTFail("Did not retrieve book")
+            return
+        }
+        XCTAssert(findBook.id == testBook.id, "Failed to retrieve book with expected id")
+    }
+    
+    func testDelete()  throws {
+        let testBook = Book(title: "1984", author: "George Orwell")
+        try library.add(testBook)
+        XCTAssert(!library.bookList.isEmpty,"Did not add book before deletion")
+        try library.delete(testBook)
+        XCTAssert(library.bookList.isEmpty,"Did not delete book")
+    }
+    
     func testUpdate() {
         
         let newBook = Book(title: "Reamde", author: "Neal Stephenson")

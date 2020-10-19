@@ -18,7 +18,7 @@ struct BookListView: View {
                     NavigationLink(destination: BookEditView(book: book)) {
                         BookRowView(book: book)
                     }
-                }
+                }.onDelete(perform: delete)
             }
             .navigationBarItems(trailing:
                                     Button(action: {
@@ -32,6 +32,15 @@ struct BookListView: View {
             .listStyle(GroupedListStyle())
         }.sheet(isPresented: $showAddSheet) {
             AddSheetView()
+        }
+    }
+    
+    func delete(at offsets: IndexSet) {
+        let books = offsets.map { self.library.bookList[$0]
+            
+        }
+        for book in books {
+            try? self.library.delete(book)
         }
     }
 }
